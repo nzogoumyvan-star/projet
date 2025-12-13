@@ -1,0 +1,29 @@
+# monitoring/docker-compose.yml (similaire au TP4)
+services:
+  # Service Prometheus
+  prometheus:
+    image: prom/prometheus
+    container_name: prometheus
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml 
+    ports:
+      - "9090:9090"
+    networks:
+      - monitoring
+
+  # Service Grafana
+  grafana:
+    image: grafana/grafana
+    container_name: grafana
+    ports:
+      - "3001:3000" # Port d'accès à Grafana
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=admin 
+    depends_on:
+      - prometheus
+    networks:
+      - monitoring
+
+networks:
+  monitoring:
+    driver: bridge

@@ -1,0 +1,15 @@
+# monitoring/prometheus.yml
+global:
+  scrape_interval: 15s
+
+scrape_configs:
+  - job_name: 'prometheus'
+    static_configs:
+      - targets: ['localhost:9090']
+  
+  # Cible pour votre application PHP
+  - job_name: 'cve-explorer-php-app'
+    metrics_path: /metrics # Doit correspondre à l'endpoint de votre exportateur PHP
+    static_configs:
+      # L'application PHP doit être accessible par son nom de service Docker ou IP
+      - targets: ['ttp://localhost/mon projet/index.php:80']

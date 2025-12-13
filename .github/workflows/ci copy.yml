@@ -1,0 +1,22 @@
+# ... autres étapes (checkout) ...
+
+# 1. Analyse de sécurité statique (Gitleaks)
+- name: Run Gitleaks scan
+  uses: zricethezav/gitleaks-action@v2
+  # Le pipeline échouera s'il détecte un secret (comme dans le TP)
+  # 2. Construire l'image Docker
+- name: Build Docker image for PHP App
+  run: docker build -t cve-explorer:latest .
+
+# 3. Analyser l'image avec Trivy
+- name: Scan Docker image with Trivy
+  uses: aquasecurity/trivy-action@0.20.0
+  with:
+    image-ref: cve-explorer:latest
+    format: 'table'
+    exit-code: '1' # Fait échouer si des vulnérabilités sont trouvées
+    severity: 'CRITICAL,HIGH' # Ne reporte que les plus graves
+
+# 4. Pousser l'image (si les étapes de sécurité réussissent)
+- name: Push Docker image
+  run: docker push ${{ env.DOCKER_IMAGE_NAME }}
