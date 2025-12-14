@@ -1,22 +1,37 @@
-# ... autres étapes (checkout) ...
+name: CI/CD - democyber
 
-# 1. Analyse de sécurité statique (Gitleaks)
-- name: Run Gitleaks scan
-  uses: zricethezav/gitleaks-action@v2
-  # Le pipeline échouera s'il détecte un secret (comme dans le TP)
-  # 2. Construire l'image Docker
-- name: Build Docker image for PHP App
-  run: docker build -t cve-explorer:latest .
+# Trigger the workflow on push or pull request to main
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
 
-# 3. Analyser l'image avec Trivy
-- name: Scan Docker image with Trivy
-  uses: aquasecurity/trivy-action@0.20.0
-  with:
-    image-ref: cve-explorer:latest
-    format: 'table'
-    exit-code: '1' # Fait échouer si des vulnérabilités sont trouvées
-    severity: 'CRITICAL,HIGH' # Ne reporte que les plus graves
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
 
-# 4. Pousser l'image (si les étapes de sécurité réussissent)
-- name: Push Docker image
-  run: docker push ${{ env.DOCKER_IMAGE_NAME }}
+    env:
+      DOCKER_IMAGE_NAME: ${{ secrets.DOCKERHUB_USERNAME }}/democyber:latest
+
+    steps:
+      # Checkout the code
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      # Install Java
+      - name: Set up JDK 21
+        uses: actions/setup-java@v3
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+
+        # Compile Java code
+      - name: Compile Java
+        run: mvn compile
+
+      # Build Maven
+      - name: Build Java project with Maven
+        run: mvn clean package
+
+
