@@ -1,0 +1,85 @@
+body {
+    font-family: Arial, sans-serif;
+    background: #f4f4f4;
+    margin: 0;
+    padding: 20px;
+}
+
+.container {
+    max-width: 900px;
+    margin: auto;
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+input[type="text"], select, button {
+    padding: 10px;
+    margin: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+button {
+    background: #007cba;
+    color: white;
+    cursor: pointer;
+}
+
+button:hover {
+    background: #005a87;
+}
+
+.row{
+background-color: #007cba;
+}
+
+.vuln {
+    border-left: 4px solid #007cba;
+    padding: 10px;
+    margin: 10px 0;
+    background: #d16161;
+}
+
+a {
+    color: #007cba;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+
+
+/* Footer */
+footer {
+    background-color: #0d2947; /* Couleur foncée */
+    color: white;
+}
+
+footer a {
+    color: aqua;
+    text-decoration: none;
+}
+
+footer a:hover {
+    color: aqua;
+}
+
+footer .list-unstyled {
+    padding-left: 0;
+}
+
+footer i {
+    transition: transform 0.3s ease;
+}
+
+footer i:hover {
+    transform: scale(1.2);
+}
+
+footer .fs-4 {
+    font-size: 1.5rem;
+}
